@@ -39,3 +39,14 @@ jobs:
       run: npm install
     - name: Run Integration Tests
       run: npm test
+
+  deploy_renderer:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: integration_test
+    steps:
+    - name: Deploy on production
+      uses: johnbeynon/render-deploy-action@v0.0.8
+      with:
+        service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+        api-key: ${{ secrets.MY_RENDER_API_KEY }}
